@@ -9,13 +9,11 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "roles")
-@JsonIgnoreProperties(value = { "createdAt", "updatedAt" }, allowGetters = true)
+@JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -29,7 +27,5 @@ public class Role {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
     @ManyToMany(mappedBy = "roles")
-    private List < User > users;
-//@ManyToMany(mappedBy = "roles")
-//private Collection<User> users;
+    private List<User> users;
 }

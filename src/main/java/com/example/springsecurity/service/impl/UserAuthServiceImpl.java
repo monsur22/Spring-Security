@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Collection;
 
 @Log4j2
 @Service
@@ -23,20 +23,20 @@ public class UserAuthServiceImpl implements UserAuthService {
     boolean credentialsNonExpired = true;
     boolean accountNonLocked = true;
     private User user;
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userAuthRepository.findByEmail(username);
-        if (user == null) throw new UsernameNotFoundException(username);
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), user.getActive(), accountNonExpired, credentialsNonExpired, accountNonLocked, getAuthorities(user));
-    }
 
-        private static Collection<? extends GrantedAuthority> getAuthorities(User user) {
+    private static Collection<? extends GrantedAuthority> getAuthorities(User user) {
         String[] userRoles = user.getRoles().stream().map((role) -> role.getName()).toArray(String[]::new);
         Collection<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(userRoles);
         System.out.println(authorities);
         return authorities;
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userAuthRepository.findByEmail(username);
+        if (user == null) throw new UsernameNotFoundException(username);
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), user.getActive(), accountNonExpired, credentialsNonExpired, accountNonLocked, getAuthorities(user));
+    }
 
 
 }

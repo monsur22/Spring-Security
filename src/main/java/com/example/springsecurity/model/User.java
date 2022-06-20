@@ -10,14 +10,11 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
-@JsonIgnoreProperties(value = { "createdAt", "updatedAt" }, allowGetters = true)
+@JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,18 +27,16 @@ public class User {
     private String password;
     @Column(nullable = false)
     @ColumnDefault("false")
-    private Boolean active =false;
+    private Boolean active = false;
     @CreationTimestamp
     private LocalDateTime createdAt;
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @ManyToMany(cascade=CascadeType.MERGE,fetch = FetchType.EAGER)
-//    @ManyToMany
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(
-            name="user_role",
-            joinColumns={@JoinColumn(name="USER_ID", referencedColumnName="ID")},
-            inverseJoinColumns={@JoinColumn(name="ROLE_ID", referencedColumnName="ID")})
-//    private Set<Role> roles=new HashSet<>();
+            name = "user_role",
+            joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},
+            inverseJoinColumns = {@JoinColumn(name = "ROLE_ID", referencedColumnName = "ID")})
     private Set<Role> roles;
 }
