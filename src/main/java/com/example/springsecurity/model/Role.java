@@ -4,44 +4,32 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "users")
+@Table(name = "roles")
 @JsonIgnoreProperties(value = { "createdAt", "updatedAt" }, allowGetters = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-    private String email;
-    private String password;
-    @Column(nullable = false)
-    @ColumnDefault("false")
-    private Boolean active =false;
     @CreationTimestamp
     private LocalDateTime createdAt;
     @UpdateTimestamp
     private LocalDateTime updatedAt;
-
-    @ManyToMany(cascade=CascadeType.MERGE,fetch = FetchType.EAGER)
-//    @ManyToMany
-    @JoinTable(
-            name="user_role",
-            joinColumns={@JoinColumn(name="USER_ID", referencedColumnName="ID")},
-            inverseJoinColumns={@JoinColumn(name="ROLE_ID", referencedColumnName="ID")})
-//    private Set<Role> roles=new HashSet<>();
-    private Set<Role> roles;
+    @ManyToMany(mappedBy = "roles")
+    private List < User > users;
+//@ManyToMany(mappedBy = "roles")
+//private Collection<User> users;
 }

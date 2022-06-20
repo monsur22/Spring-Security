@@ -21,12 +21,12 @@ public class HomeController {
     }
     @GetMapping("/admin")
     public String admin() {
-        return "<h2>Welcome Admin!</h2>";
+        return "admin";
     }
 
     @GetMapping("/user")
     public String user() {
-        return "<h2>Welcome User!</h2>";
+        return "user";
     }
 
     @GetMapping("/")
